@@ -3,12 +3,9 @@ function operation() {
   let currentScreen = document.querySelector("#currentScreen");
   const delButton = document.querySelector(".delete");
   let clearButton = document.querySelector(".clear");
-  const equalsButton = document.querySelector(".equals");
   const numButtons = document.querySelectorAll(".number");
   const opButtons = document.querySelectorAll(".operator");
-  const decimalButton = document.querySelector(".decimal");
-  const switchButton = document.querySelector(".switch");
-  const buttons = document.querySelectorAll(".btn");
+
   let firstOperand = null;
   let secondOperand;
   let operator = "";
@@ -23,18 +20,23 @@ function operation() {
         trigger = false;
         decimalTrigger = false;
       }
-
-      if (e.target.textContent === "+/-") {
-        currentScreen.textContent *= -1;
-      } else {
-        if (e.target.textContent === ".") {
-          if (decimalTrigger === false) {
-            currentScreen.textContent += e.target.textContent;
-            decimalTrigger = true;
-          }
+      if (currentScreen.textContent.length < 23) {
+        if (e.target.textContent === "+/-") {
+          currentScreen.textContent *= -1;
         } else {
-          currentScreen.textContent += e.target.textContent;
+          if (e.target.textContent === ".") {
+            if (decimalTrigger === false) {
+              currentScreen.textContent += e.target.textContent;
+
+              decimalTrigger = true;
+            }
+          } else {
+            currentScreen.textContent += e.target.textContent;
+            console.log(currentScreen.textContent.length + " length");
+          }
         }
+      } else {
+        return;
       }
     });
   });
@@ -61,8 +63,6 @@ function operation() {
       }
     });
   });
-
-  // function operation(operator, firstOperand, secondOperand) {}
 
   const calculate = function (op, firstOperand, secondOperand) {
     switch (op) {
