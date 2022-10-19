@@ -2,16 +2,30 @@ body {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
-  background-color: rgb(186, 186, 186);
+  background-color: rgb(61, 61, 61);
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+* {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 #container {
-  /* background-color: gray; */
   display: flex;
   flex-direction: column;
   color: white;
-  background-color: darkgray;
+  background-image: linear-gradient(
+    to bottom left,
+    gray,
+    white,
+    rgb(174, 174, 174),
+    white,
+    gray
+  );
+  /* background-color: rgb(221, 221, 221); */
   padding: 1.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -29,10 +43,11 @@ body {
   min-height: 30px;
   flex: 1;
   font-size: 1.4rem;
+  background-color: rgb(149, 148, 148);
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: end;
-  box-shadow: inset 0 2px 9px 2px rgba(0, 0, 0, 0.3);
+  /* box-shadow: inset 0 2px 9px 2px rgba(0, 0, 0, 0.3); */
 }
 
 #buttons {
@@ -41,8 +56,6 @@ body {
   grid-template-columns: repeat(4, 1fr);
   color: white;
   margin-top: 1rem;
-  /* background-color: lightgray; */
-  /* box-shadow: inset 0 2px 9px 2px rgba(0, 0, 0, 0.3); */
 }
 .btn {
   padding: 1.3rem;
@@ -50,7 +63,7 @@ body {
   background-color: rgb(149, 148, 148);
   font-size: 2rem;
   text-align: center;
-  border-radius: 25%;
+  border-radius: 50%;
   box-shadow: inset 0 2px 9px 2px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
