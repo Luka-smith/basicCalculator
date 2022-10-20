@@ -17,7 +17,9 @@ function operation() {
 
   numButtons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      if (e.target.textContent === "+/-" && triggerEvalScreen) {
+      //if negate button is pressed when current screen has evaluate content on it.
+      // To keep negated evaluate content on screen as firstOperand before screen clears
+      if (e.target.textContent === "+/-" && triggerEvalScreen === true) {
         firstOperand *= -1;
         historyScreen.textContent = firstOperand + operator;
         currentScreen.textContent = firstOperand;
@@ -31,10 +33,10 @@ function operation() {
         decimalTrigger = false;
         triggerEvalScreen = false;
       }
-
+      //number buttons event handler
+      //no more than 23 symbols
       if (currentScreen.textContent.length < 23) {
-        //number buttons event handler
-        //no more than 23 symbols
+        //negate button handler
         if (e.target.textContent === "+/-") {
           if (currentScreen.textContent !== "") {
             //switch to negative
@@ -51,7 +53,6 @@ function operation() {
               }
               currentScreen.textContent += e.target.textContent; //current screen text content with decimal button
               decimalTrigger = true;
-              // operatorTrigger = false;
             }
           } else {
             currentScreen.textContent += e.target.textContent; //current screen text content
@@ -67,32 +68,44 @@ function operation() {
 
   opButtons.forEach((op) => {
     op.addEventListener("click", (e) => {
+      //check trigger
       if (operatorTrigger === false) {
+        //if trigger not in a default position - switch it into default
         operatorTrigger = true;
+        //if there is no first operand = create one
         if (firstOperand === null) {
           firstOperand = currentScreen.textContent;
-          console.log(firstOperand + " 1st");
+          //assign operator to a variable
           operator = e.target.textContent;
+          //display on history screen
           historyScreen.textContent += firstOperand + operator;
+          //switch cleanscreen trigger so current screen will be empty when new number is entered
           triggerCleanScreen = true;
         } else {
+          //if there is first operand, create secondOperand from numbers on the screen
           secondOperand = currentScreen.textContent;
-          console.log(secondOperand + " 2nd");
+          //run calculation after there are two operands and operator
           calculate(operator, firstOperand, secondOperand);
+          //display result of calculation on currentScreen
           currentScreen.textContent = evaluate;
-
+          //save next operator if it's not equals = if it's equals - don't save it into operator var
           if (e.target.textContent !== "=") {
             operator = e.target.textContent;
           }
-
+          //move evaluate and operator to history screen
           historyScreen.textContent = evaluate + operator;
+          //flag for negate button to start negating screen with evaluate value
           triggerEvalScreen = true;
+          //assign calculation result to firstOperand
           firstOperand = evaluate;
           triggerCleanScreen = true;
         }
       } else {
+        //if operator trigger in default position
         if (firstOperand !== null) {
           if (e.target.textContent !== "=") {
+            //to get next operator and display it without calculation
+            //- this preventing operator buttons to be continuously pressed
             operator = e.target.textContent;
             historyScreen.textContent = firstOperand + operator;
           }
@@ -118,7 +131,6 @@ function operation() {
           evaluate = parseFloat(firstOperand) / parseFloat(secondOperand);
         } else {
           evaluate = 0;
-          // currentScreen.textContent = "Cannot divide by 0";
           alert("Cannot divide by 0");
         }
         break;
@@ -126,16 +138,6 @@ function operation() {
         break;
     }
   };
-
-  // const divide = function () {
-  //   if (secondOperand !== 0) {
-  //     evaluate = parseFloat(firstOperand) / parseFloat(secondOperand);
-  //     // } else {
-  //     //   evaluate = 0;
-  //     //   console.log(evaluate);
-  //     //   currentScreen.textContent = "Cannot divide by 0";
-  //   }
-  // };
 
   clearButton.addEventListener("click", () => {
     historyScreen.textContent = "";
@@ -147,6 +149,7 @@ function operation() {
     decimalTrigger = false;
     operatorTrigger = true;
   });
+
   delButton.addEventListener("click", () => {
     currentScreen.textContent = currentScreen.textContent.slice(0, -1);
   });

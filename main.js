@@ -17,8 +17,6 @@ function operation() {
 
   numButtons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      //if negate button is pressed when current screen has evaluate content on it.
-      // To keep negated evaluate content on screen as firstOperand before screen clears
       if (e.target.textContent === "+/-" && triggerEvalScreen === true) {
         firstOperand *= -1;
         historyScreen.textContent = firstOperand + operator;
@@ -34,12 +32,10 @@ function operation() {
         triggerEvalScreen = false;
       }
       //number buttons event handler
-      //no more than 23 symbols
       if (currentScreen.textContent.length < 23) {
         //negate button handler
         if (e.target.textContent === "+/-") {
           if (currentScreen.textContent !== "") {
-            //switch to negative
             currentScreen.textContent *= -1;
           } else {
             operatorTrigger = true;
@@ -51,58 +47,42 @@ function operation() {
               if (currentScreen.textContent === "") {
                 currentScreen.textContent = "0";
               }
-              currentScreen.textContent += e.target.textContent; //current screen text content with decimal button
+              currentScreen.textContent += e.target.textContent;
               decimalTrigger = true;
-              // operatorTrigger = false;
             }
           } else {
-            currentScreen.textContent += e.target.textContent; //current screen text content
-            // console.log(currentScreen.textContent.length + " length");
+            currentScreen.textContent += e.target.textContent;
           }
         }
       }
-      // else {
-      //   return;
-      // }
     });
   });
 
   opButtons.forEach((op) => {
     op.addEventListener("click", (e) => {
-      //check trigger
       if (operatorTrigger === false) {
-        //if trigger not in a default position - switch it into default
         operatorTrigger = true;
-        //if there is no first operand = create one
         if (firstOperand === null) {
           firstOperand = currentScreen.textContent;
-          //assign operator to a variable
           operator = e.target.textContent;
-          //display on history screen
           historyScreen.textContent += firstOperand + operator;
-          //switch cleanscreen trigger so current screen will be empty when new number is entered
           triggerCleanScreen = true;
         } else {
           //if there is first operand, create secondOperand from numbers on the screen
           secondOperand = currentScreen.textContent;
-          //run calculation after there are two operands and operator
           calculate(operator, firstOperand, secondOperand);
-          //display result of calculation on currentScreen
           currentScreen.textContent = evaluate;
           //save next operator if it's not equals = if it's equals - don't save it into operator var
           if (e.target.textContent !== "=") {
             operator = e.target.textContent;
           }
-          //move evaluate and operator to history screen
           historyScreen.textContent = evaluate + operator;
-          //
+          //flag for negate button to start negating screen with evaluate value
           triggerEvalScreen = true;
-          //assign calculation result to firstOperand
           firstOperand = evaluate;
           triggerCleanScreen = true;
         }
       } else {
-        //if operator trigger in default position
         if (firstOperand !== null) {
           if (e.target.textContent !== "=") {
             //to get next operator and display it without calculation
